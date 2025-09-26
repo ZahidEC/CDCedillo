@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Contacto | CD Fotografía y Video</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="contacto fotógrafo, reservar sesión fotográfica, cotizar servicios fotográficos" name="keywords">
+    <meta content="Formulario de contacto para reservar sesiones fotográficas o solicitar información sobre nuestros servicios" name="description">
+
+    <!-- Favicon -->
+    <link href="img/websiteplanet.com-favicons/favicons/favicon-16x16.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <!-- Estilos para botones de redes sociales -->
+    <style>
+        /* ESTILOS PARA EL NAVBAR CON DEGRADADO VERTICAL */
+        .navbar {
+            background: linear-gradient(to bottom, #131E29 0%, #000000 100%) !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+            padding: 0.8rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .navbar-brand,
+        .navbar .nav-link {
+            color: #ffffff !important;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #ffd700;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .navbar .nav-link:hover::after,
+        .navbar .nav-link.active::after {
+            width: 80%;
+        }
+        
+        .navbar .nav-link:hover {
+            color: #ffd700 !important;
+        }
+        
+        /* Personalizar el botón toggler para móviles */
+        .navbar-toggler {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        /* Asegurar que el menú colapsado tenga el fondo correcto */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: linear-gradient(to bottom, #131E29 0%, #000000 100%);
+                padding: 1rem;
+                border-radius: 0.5rem;
+                margin-top: 0.8rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+        }
+        
+        /* Botón de reserva personalizado */
+        .btn-reserva {
+            background: linear-gradient(to right, #06BBCC, #049db8);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-reserva:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 187, 204, 0.4);
+            color: white;
+        }
+        
+        body {
+            background-image: url('img/Fondo/fondo.avif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Opcional: hace que la imagen sea fija al hacer scroll */
+        }
+        
+        .social-buttons {
+            margin-top: 30px;
+        }
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .whatsapp-btn {
+            background-color: #25D366;
+        }
+        .instagram-btn {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+        }
+        .facebook-btn {
+            background-color: #3b5998;
+        }
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        .whatsapp-contact {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        /* Nuevos estilos para reorganizar el contenido */
+        .contact-container {
+          
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info-wrapper {
+            border-right: 1px solid #eee;
+            padding-right: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .contact-info-wrapper {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding-right: 0;
+                padding-bottom: 30px;
+                margin-bottom: 30px;
+            }
+        }
+        
+        .contact-header {
+            margin-bottom: 30px;
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+            /* Forzar icono blanco */
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* Solo en pantallas pequeñas: fondo negro semitransparente y links en blanco */
+@media (max-width: 991px) {
+  #navbarCollapse {
+    background-color: rgba(0,0,0,0.8) !important;
+  }
+  #navbarCollapse .nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s ease-in-out;
+  }
+  #navbarCollapse .nav-link:hover,
+  #navbarCollapse .nav-link:focus {
+    color: #DF8932 !important;
+  }
+  /* opcional: quitar borde del toggler */
+  .navbar-toggler {
+    border-color: transparent !important;
+  }
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;   /* justo debajo del navbar */
+    left: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.9); /* negro semitransparente */
+    z-index: 999;
+  }
+}
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+   <!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+    <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <img src="img/Logo/cdcedillo.png" alt="Logo CD Cedillo" style="height: 50px;">
+        &nbsp;
+        CD Cedillo
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="index.html" class="nav-item nav-link">Inicio</a>
+            <a href="about.html" class="nav-item nav-link">Sobre Mí</a>
+            <a href="portafolio_1.html" class="nav-item nav-link active">Portafolio</a>
+            <a href="contact.html" class="nav-item nav-link">Contacto</a>
+            <!-- Enlace de Reservas solo para móviles -->
+            <a href="reservas.html" class="nav-item nav-link d-lg-none">Reservar Sesión</a>
+        </div>
+        <a href="reservas.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Reservar Sesión<i class="fa fa-arrow-right ms-3"></i></a>
+    </div>
+</nav>
+    <!-- Navbar End -->
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Contacto</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="index.html">Inicio</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Contacto</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Contact Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Escríbenos</h6>
+                <h1 class="mb-5">Contáctanos para cualquier consulta</h1>
+            </div>
+            
+            <div class="contact-container wow fadeInUp" data-wow-delay="0.3s">
+                <div class="row">
+                    <div class="col-lg-6 contact-info-wrapper">
+                        <div class="contact-header">
+                            <h5>Información de Contacto</h5>
+                            <p class="mb-4">Estamos disponibles para responder tus preguntas sobre sesiones fotográficas, cotizaciones y disponibilidad. No dudes en escribirnos.</p>
+                        </div>
+                        
+                        <div class="contact-details">
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fa fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-primary">Ubicación</h5>
+                                    <p class="mb-0">Tulancingo hidalgo centro , Tulancingo, Mexico</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fa fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-primary">Teléfono</h5>
+                                    <p class="mb-0">775 182 0299</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <i class="fa fa-envelope-open"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-primary">Email</h5>
+                                    <p class="mb-0">cedillo1618@outlook.es</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de Redes Sociales (sin WhatsApp) -->
+                        <div class="social-buttons">
+                            <h5 class="mb-3">Síguenos en redes</h5>
+                            <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Fcd_cedilloax%3Futm_source%3Dig_web_button_share_sheet%26igsh%3DZDNlZDc0MzIxNw%253D%253D%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExa2plZTJUdWs1SVRkN2NGaQEe5PgXlS7tYufiUqmlk0CHiMhHrEp0ZrYz8p-YBF8OC0-b9e290sHvXXVqErs_aem_j9SRToX_PdLiWjR2qQ7KIg&h=AT3ToJex8Xn5hNKBd8u-I75CJvA6ucJlMVEhuuNi5Jy9gKgQcGegekQOGA444_mSabQSYeFhZps4mGXhp35Teqg0fHCJbbBp6nRiPyz_ytvf29TUIfjfrNv9tzzDmpsN0bnIJg" class="social-btn instagram-btn" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/cedilloax" class="social-btn facebook-btn" target="_blank">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="whatsapp-contact">
+                            <h3 class="mb-4" style="color: #000000;">Contáctanos por WhatsApp</h3>
+                            <p>Para una respuesta más rápida, escríbenos directamente por WhatsApp:</p>
+                            <a href="https://wa.me/7751820299" class="btn btn-success btn-lg py-3 px-4 mt-3" target="_blank">
+                                <i class="fab fa-whatsapp me-2"></i> Chatear por WhatsApp
+                            </a>
+                            <p class="mt-3">Horario de atención: Lunes a Viernes de 9:00 a 18:00 hrs</p>
+                        </div>
+                        
+                        <div class="mt-5">
+                            <h5 class="mb-3">¿Por qué elegirnos?</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent"><i class="fa fa-check text-primary me-2"></i> Respuesta rápida en menos de 24 horas</li>
+                                <li class="list-group-item bg-transparent"><i class="fa fa-check text-primary me-2"></i> Presupuestos personalizados sin compromiso</li>
+                                <li class="list-group-item bg-transparent"><i class="fa fa-check text-primary me-2"></i> Asesoramiento profesional para tu sesión</li>
+                                <li class="list-group-item bg-transparent"><i class="fa fa-check text-primary me-2"></i> Flexibilidad de horarios y ubicaciones</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Enlaces</h4>
+                    <a class="btn btn-link" href="about.html">Sobre Mí</a>
+                    <a class="btn btn-link" href="contact.html">Contacto</a>
+                    <a class="btn btn-link" href="privacy.html">Privacidad</a>
+                    <a class="btn btn-link" href="terms.html">Términos</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contacto</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Tulancingo hidalgo centro , Tulancingo, Mexico</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>775 182 0299</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>cedillo1618@outlook.es</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/tucuenta" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/tupagina" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">CD Fotografía y Video</a>, Todos los derechos reservados.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

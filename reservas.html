@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>CD Fotografía | Reserva de Citas</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="reservas fotógrafo Tulancingo, agendar sesión fotográfica, citas fotografía Hidalgo" name="keywords">
+    <meta content="Sistema de reservas en línea para sesiones fotográficas profesionales en Tulancingo, Hidalgo" name="description">
+
+    <!-- Favicon -->
+    <link href="img/websiteplanet.com-favicons/favicons/favicon-16x16.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Leaflet CSS (para el mapa) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet Geosearch -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.8.0/dist/geosearch.css" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    
+    <style>
+        /* ESTILO MODERNO CON DEGRADADOS */
+        #calendar-container {
+            height: 600px;
+            min-height: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            font-family: 'Raleway', sans-serif;
+            border: none;
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5em;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #f6f9fc 0%, #edf1f7 100%);
+            border: 1px solid #e1e8f0;
+        }
+
+        .calendar-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+            background: linear-gradient(135deg, #06BBCC, #049db8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .calendar-nav button {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #4a5568 !important;
+            padding: 8px 16px !important;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .calendar-nav button:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            color: #06BBCC !important;
+            border-color: #06BBCC !important;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #4a5568;
+            padding: 12px 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .calendar-day {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #edf2f7;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .calendar-day:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .calendar-day.other-month {
+            color: #a0aec0;
+        }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, rgba(6, 187, 204, 0.1), rgba(4, 157, 184, 0.1)) !important;
+        }
+
+        .calendar-day.today:before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #06BBCC, #049db8);
+            border-radius: 50%;
+        }
+
+        .calendar-day.selected {
+            background: linear-gradient(135deg, #06BBCC, #049db8) !important;
+            color: white !important;
+            box-shadow: 0 2px 5px rgba(6, 187, 204, 0.3);
+        }
+
+        .calendar-day.booked {
+            background: linear-gradient(135deg, #e53e3e, #c53030) !important;
+            color: white !important;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.booked:after {
+            content: 'Reservado';
+            position: absolute;
+            bottom: 5px;
+            font-size: 0.6rem;
+            opacity: 0.8;
+        }
+
+        /* ESTILOS PARA EL NAVBAR CON DEGRADADO VERTICAL */
+        .navbar {
+            background: linear-gradient(to bottom, #131E29 0%, #000000 100%) !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+            padding: 0.8rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .navbar-brand,
+        .navbar .nav-link {
+            color: #ffffff !important;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #ffd700;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .navbar .nav-link:hover::after,
+        .navbar .nav-link.active::after {
+            width: 80%;
+        }
+        
+        .navbar .nav-link:hover {
+            color: #ffd700 !important;
+        }
+        
+        /* Personalizar el botón toggler para móviles */
+        .navbar-toggler {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        /* Asegurar que el menú colapsado tenga el fondo correcto */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: linear-gradient(to bottom, #131E29 0%, #000000 100%);
+                padding: 1rem;
+                border-radius: 0.5rem;
+                margin-top: 0.8rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+        }
+        
+        /* Botón de reserva personalizado */
+        .btn-reserva {
+            background: linear-gradient(to right, #06BBCC, #049db8);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-reserva:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 187, 204, 0.4);
+            color: white;
+        }
+        
+        body {
+            background-image: url('img/Fondo/fondo.avif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Opcional: hace que la imagen sea fija al hacer scroll */
+        }
+        
+        /* Estilos para el selector de hora digital */
+        .time-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .time-input {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .time-separator {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Estilos para el mapa */
+        #mapContainer {
+            display: none;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        #locationMap {
+            height: 300px;
+            width: 100%;
+        }
+        
+        .map-controls {
+            background: white;
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        #manualLocationContainer {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        /* Estilo para el botón de WhatsApp */
+        #whatsappBtn {
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+        
+        #whatsappBtn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+        
+        /* Estilos para la selección de ubicación */
+        .location-options {
+            margin-top: 10px;
+        }
+        
+        .location-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .location-option:hover, .location-option.selected {
+            background: #e9f5ff;
+            border-color: #0d6efd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .location-option input {
+            margin-right: 12px;
+        }
+        
+        .location-option .location-icon {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+        
+        .location-option.selected .location-icon {
+            color: #0d6efd;
+        }
+        
+        .location-option .location-text {
+            flex-grow: 1;
+        }
+        
+        .location-option .location-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .location-option .location-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        /* Estilos para el autocompletado */
+        .pac-container {
+            z-index: 1051 !important;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: none;
+        }
+        
+        /* Estilos generales mejorados */
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+            height: 100%;
+        }
+        
+        .form-control, .form-select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            transform: translateY(-1px);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+        
+        /* Animaciones sutiles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .wow.fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Estilos para la notificación */
+        .notification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .notification-box {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-left: 6px solid #ff9800;
+        }
+        
+        .notification-title {
+            color: #d32f2f;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .notification-content {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+        
+        .notification-content ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .notification-content li {
+            margin-bottom: 8px;
+        }
+        
+        .close-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            float: right;
+        }
+        
+        .close-btn:hover {
+            background-color: #f57c00;
+        }
+
+            /* Forzar icono blanco */
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* Solo en pantallas pequeñas: fondo negro semitransparente y links en blanco */
+@media (max-width: 991px) {
+  #navbarCollapse {
+    background-color: rgba(0,0,0,0.8) !important;
+  }
+  #navbarCollapse .nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s ease-in-out;
+  }
+  #navbarCollapse .nav-link:hover,
+  #navbarCollapse .nav-link:focus {
+    color: #DF8932 !important;
+  }
+  /* opcional: quitar borde del toggler */
+  .navbar-toggler {
+    border-color: transparent !important;
+  }
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;   /* justo debajo del navbar */
+    left: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.9); /* negro semitransparente */
+    z-index: 999;
+  }
+}
+    </style>
+</head>
+
+<body>
+    <!-- Spinner -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+
+     <!-- Notificación -->
+    <div id="notification" class="notification-overlay">
+        <div class="notification-box">
+            <div class="notification-title">Advertencia Importante para tu Cita de Fotografía</div>
+            <div class="notification-content">
+                <ul>
+                    <li><strong>Horarios Demostrativos:</strong> Los horarios mostrados son tentativos y están sujetos a disponibilidad.</li>
+                    <li><strong>Confirmación Obligatoria:</strong> Es indispensable que esperes la confirmación de tu cita a través de WhatsApp antes de considerarla agendada.</li>
+                </ul>
+            </div>
+            <button class="close-btn" onclick="closeNotification()">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para cerrar la notificación
+        function closeNotification() {
+            document.getElementById('notification').style.display = 'none';
+        }
+        
+        // Opcional: Cerrar al hacer clic fuera del cuadro de notificación
+        document.querySelector('.notification-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNotification();
+            }
+        });
+        
+        // Opcional: Cerrar después de 10 segundos (10000 milisegundos)
+        // setTimeout(closeNotification, 10000);
+    </script>
+   <!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+    <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <img src="img/Logo/cdcedillo.png" alt="Logo CD Cedillo" style="height: 50px;">
+        &nbsp;
+        CD Cedillo
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="index.html" class="nav-item nav-link">Inicio</a>
+            <a href="about.html" class="nav-item nav-link">Sobre Mí</a>
+            <a href="portafolio_1.html" class="nav-item nav-link active">Portafolio</a>
+            <a href="contact.html" class="nav-item nav-link">Contacto</a>
+            <!-- Enlace de Reservas solo para móviles -->
+            <a href="reservas.html" class="nav-item nav-link d-lg-none">Reservar Sesión</a>
+        </div>
+        <a href="reservas.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Reservar Sesión<i class="fa fa-arrow-right ms-3"></i></a>
+    </div>
+</nav>
+    <!-- Navbar End -->
+
+    <!-- Booking Section -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center px-3" style="color: #df8932;">Reservas</h6>
+                <h1 class="mb-4">Agenda Tu Sesión Fotográfica</h1>
+                <p class="lead" style="text-align: justify !important;"><li><strong>Horarios Demostrativos:</strong> Los horarios mostrados son tentativos y están sujetos a disponibilidad.</li>
+                    <li><strong>Confirmación Obligatoria:</strong> Es indispensable que esperes la confirmación de tu cita a través de WhatsApp antes de considerarla agendada.</li>
+               </p>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <!-- Calendario -->
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                    <div class="booking-card">
+                        <div id="calendar-container">
+                            <p style="text-align: center;">Seleccione la fecha que desea reservar</p>
+                            <div class="calendar-header">
+                                
+                                <div class="calendar-nav">
+                                    <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                                </div>
+                                <div class="calendar-title" id="calendar-title">Mes Año</div>
+                                <div class="calendar-nav">
+                                    <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div>Dom</div>
+                                <div>Lun</div>
+                                <div>Mar</div>
+                                <div>Mié</div>
+                                <div>Jue</div>
+                                <div>Vie</div>
+                                <div>Sáb</div>
+                            </div>
+                            <div class="calendar-days" id="calendar-days">
+                                <!-- Los días se generarán dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Formulario de Reserva -->
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.3s">
+                    <div class="booking-card">
+                        <h3 class="mb-4"><i class="fas fa-calendar-check me-2"></i> Detalles de Reserva</h3>
+
+                        <form id="bookingForm">
+                            <div class="mb-3">
+                                <label class="form-label">Fecha seleccionada*</label>
+                                <input type="text" class="form-control" id="selectedDate" readonly required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nombre completo*</label>
+                                    <input type="text" class="form-control" id="clientName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Teléfono*</label>
+                                    <input type="tel" class="form-control" id="clientPhone" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tipo de sesión*</label>
+                                    <select class="form-select" id="sessionType" required>
+                                        <option value="" disabled selected>Selecciona...</option>
+                                        <option value="retrato">Retratos</option>
+                                        <option value="boda">Boda</option>
+                                        <option value="evento">Evento</option>
+                                        <option value="producto">Fotografía de Producto</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Hora preferida*</label>
+                                    <div class="time-picker">
+                                        <input type="number" class="time-input" id="hourInput" min="9" max="20" placeholder="09" required>
+                                        <span class="time-separator">:</span>
+                                        <input type="number" class="time-input" id="minuteInput" min="0" max="59" placeholder="00" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Ubicación de la sesión*</label>
+                                
+                                <!-- Opciones de ubicación simplificadas -->
+                                <div class="location-options">
+                                    <div class="location-option" onclick="selectLocationOption('manual', this)">
+                                        <input type="radio" name="location" id="locationManual" value="manual" required>
+                                        <i class="fas fa-map-marker-alt location-icon"></i>
+                                        <div class="location-text">
+                                            <div class="location-title">Agregar ubicación</div>
+                                            <div class="location-subtitle">Ingresa la dirección manualmente</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="location-option" onclick="selectLocationOption('select', this)">
+                                        <input type="radio" name="location" id="locationSelect" value="select">
+                                        <i class="fas fa-search-location location-icon"></i>
+                                        <div class="location-text">
+                                            <div class="location-title">Seleccionar ubicación</div>
+                                            <div class="location-subtitle">Busca en el mapa o usa tu ubicación</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="location-options">
+                                    <div class="location-option" onclick="selectLocationOption">
+                                        <input type="radio" name="location" id="locationManual" value="manual" required>
+                                        <i class="fas fa-map-marker-alt location-icon"></i>
+                                        <div class="location-text">
+                                            <div class="location-title">Acordar ubicación por WhatsApp</div>
+                                        </div>
+                                    </div>
+                                <!-- Contenedor para dirección manual -->
+                                <div id="manualLocationContainer">
+                                    <label class="form-label mt-2">Dirección completa*</label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" id="addressInput" class="form-control" placeholder="Calle y número">
+                                        <input type="text" id="coloniaInput" class="form-control" placeholder="Colonia">
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <input type="text" id="ciudadInput" class="form-control" placeholder="Ciudad" value="Tulancingo">
+                                        <input type="text" id="estadoInput" class="form-control" placeholder="Estado" value="Hidalgo">
+                                        <input type="text" id="cpInput" class="form-control" placeholder="C.P.">
+                                    </div>
+                                    <textarea class="form-control" id="manualLocationNotes" rows="2" placeholder="Referencias adicionales (color de casa, puntos de referencia, etc.)"></textarea>
+                                </div>
+                                
+                                <!-- Contenedor para el mapa -->
+                                <div id="mapContainer">
+                                    <div class="map-controls">
+                                        <div>
+                                            <small class="text-muted">Ubicación seleccionada:</small>
+                                            <div id="selectedLocationText" class="fw-bold">Selecciona en el mapa</div>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="useCurrentLocation()">
+                                                <i class="fas fa-location-arrow me-1"></i> Mi ubicación
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="searchAddress()">
+                                                <i class="fas fa-search me-1"></i> Buscar dirección
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="locationMap"></div>
+                                    <input type="hidden" id="selectedLat">
+                                    <input type="hidden" id="selectedLng">
+                                    <input type="hidden" id="selectedAddress">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Notas adicionales</label>
+                                <textarea class="form-control" id="notes" rows="2" placeholder="Detalles especiales, ideas para la sesión, etc."></textarea>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label" for="termsCheck">
+                                    Acepto los <a href="terms.html" target="_blank">términos y condiciones</a> y <a href="privacy.html" target="_blank">política de privacidad</a>
+                                </label>
+                            </div>
+                            <div class="text-center mt-3">
+                                <p class="mb-2">Agendar por WhatsApp</p>
+                                <a href="#" class="btn btn-success px-4" id="whatsappBtn" onclick="sendWhatsAppMessage(event)">
+                                    <i class="fab fa-whatsapp me-2"></i> Confirmar reserva por WhatsApp
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">¡Reserva Confirmada!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
+                        <h4>Gracias <span id="modalName"></span>!</h4>
+                        <p>Tu reserva ha sido confirmada con éxito.</p>
+                    </div>
+                    <div class="reservation-details">
+                        <h5 class="mb-3">Detalles de tu reserva:</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-calendar-day me-2"></i>Fecha:</span>
+                                <span class="fw-bold" id="modalDate"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-clock me-2"></i>Hora:</span>
+                                <span class="fw-bold" id="modalTime"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-camera me-2"></i>Tipo de sesión:</span>
+                                <span class="fw-bold" id="modalSessionType"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-map-marker-alt me-2"></i>Ubicación:</span>
+                                <span class="fw-bold text-end" id="modalLocation"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-4">
+                        <p>Te hemos enviado un correo electrónico con los detalles de tu reserva. Si no lo recibes en los próximos minutos, por favor revisa tu carpeta de spam.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Search Modal -->
+    <div class="modal fade" id="addressSearchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscar dirección</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Ingresa una dirección</label>
+                        <input type="text" id="addressSearchInput" class="form-control" placeholder="Ej: Av. Juárez #45, Tulancingo Centro">
+                    </div>
+                    <div id="addressSearchResults" class="mt-3">
+                        <!-- Resultados de búsqueda aparecerán aquí -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmAddressSelection()">Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Enlaces</h4>
+                    <a class="btn btn-link" href="about.html">Sobre Mí</a>
+                    <a class="btn btn-link" href="contact.html">Contacto</a>
+                    <a class="btn btn-link" href="privacy.html">Privacidad</a>
+                    <a class="btn btn-link" href="terms.html">Términos</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contacto</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Tulancingo hidalgo centro , Tulancingo, Mexico</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>775 182 0299</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>cedillo1618@outlook.es</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">CD Fotografía y Video</a>, Todos los derechos reservados.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    
+    <!-- Leaflet JS (para el mapa) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Geosearch -->
+    <script src="https://unpkg.com/leaflet-geosearch@3.8.0/dist/geosearch.umd.js"></script>
+    <!-- Google Places Autocomplete -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIwFewoQ0TL0jooQFnRBQgUARLvFyE34Y&libraries=places&callback=initAutocomplete" async defer></script>
+
+    <!-- Script principal -->
+    <script>
+        // Variables globales
+        let map;
+        let marker;
+        let selectedLocation = null;
+        let selectedDate = null;
+        let selectedLocationType = null;
+        let placesSearch;
+        let addressAutocomplete;
+        
+        // WhatsApp del fotógrafo (cambiar por el número real)
+        const PHOTOGRAPHER_WHATSAPP = '7751820299';
+        
+        // Variables para el calendario personalizado
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let bookedDates = []; // Fechas ya reservadas
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Ocultar spinner
+            const spinner = document.getElementById('spinner');
+            if (spinner) spinner.classList.remove('show');
+
+            // =============================================
+            // INICIALIZAR CALENDARIO PERSONALIZADO
+            // =============================================
+            initCustomCalendar();
+
+            // Inicializar animaciones
+            new WOW().init();
+            
+            // Inicializar mapa (pero no mostrarlo hasta que se necesite)
+            initMap();
+            
+            // Configurar inputs de hora
+            setupTimeInputs();
+        });
+        
+        // =============================================
+        // CALENDARIO PERSONALIZADO
+        // =============================================
+        function initCustomCalendar() {
+            // Generar el calendario inicial
+            generateCalendar(currentMonth, currentYear);
+            
+            // Agregar eventos a los botones de navegación
+            document.getElementById('prev-month').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                generateCalendar(currentMonth, currentYear);
+            });
+            
+            document.getElementById('next-month').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                generateCalendar(currentMonth, currentYear);
+            });
+        }
+        
+        function generateCalendar(month, year) {
+            // Actualizar el título del calendario
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            document.getElementById('calendar-title').textContent = `${monthNames[month]} ${year}`;
+            
+            // Obtener el primer día del mes y el número de días
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay(); // 0 = Domingo, 1 = Lunes, etc.
+            
+            // Generar los días del calendario
+            const calendarDays = document.getElementById('calendar-days');
+            calendarDays.innerHTML = '';
+            
+            // Agregar días vacíos al principio si es necesario
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day', 'other-month');
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Agregar los días del mes
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('calendar-day');
+                dayElement.textContent = day;
+                
+                const currentDay = new Date(year, month, day);
+                
+                // Marcar si es hoy
+                if (currentDay.getTime() === today.getTime()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Marcar si está seleccionado
+                if (selectedDate && 
+                    selectedDate.getDate() === day && 
+                    selectedDate.getMonth() === month && 
+                    selectedDate.getFullYear() === year) {
+                    dayElement.classList.add('selected');
+                }
+                
+                // Marcar si está reservado (esto es un ejemplo, deberías cargar estas fechas desde tu backend)
+                if (isDateBooked(currentDay)) {
+                    dayElement.classList.add('booked');
+                } else {
+                    // Solo permitir clic en días no reservados y futuros (o hoy)
+                    if (currentDay >= today) {
+                        dayElement.addEventListener('click', function() {
+                            selectDate(currentDay);
+                        });
+                    } else {
+                        dayElement.style.opacity = '0.5';
+                        dayElement.style.cursor = 'not-allowed';
+                    }
+                }
+                
+                calendarDays.appendChild(dayElement);
+            }
+        }
+        
+        function isDateBooked(date) {
+            // Aquí deberías verificar contra tu base de datos
+            // Por ahora, solo como ejemplo, marcaremos algunos días aleatorios como reservados
+            const day = date.getDate();
+            const month = date.getMonth();
+            
+            // Ejemplo: marcar algunos días como reservados
+            const bookedExamples = [
+                `${currentYear}-${month+1}-${day+2}`,
+                `${currentYear}-${month+1}-${day+5}`,
+                `${currentYear}-${month+1}-${day+9}`
+            ];
+            
+            return bookedExamples.includes(`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
+        }
+        
+        function selectDate(date) {
+            selectedDate = date;
+            
+            // Actualizar la interfaz
+            document.getElementById('selectedDate').value = formatDate(date);
+            
+            // Actualizar el calendario
+            generateCalendar(currentMonth, currentYear);
+        }
+        
+        // Formatear fecha en español
+        function formatDate(date) {
+            return date.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        // Configurar inputs de hora digital
+        function setupTimeInputs() {
+            const hourInput = document.getElementById('hourInput');
+            const minuteInput = document.getElementById('minuteInput');
+            
+            // Establecer valores por defecto
+            hourInput.value = '09';
+            minuteInput.value = '00';
+            
+            // Validar entrada de hora
+            hourInput.addEventListener('change', function() {
+                if (this.value < 9) this.value = '09';
+                if (this.value > 20) this.value = '20';
+                if (this.value.length === 1) this.value = '0' + this.value;
+            });
+            
+            // Validar entrada de minutos
+            minuteInput.addEventListener('change', function() {
+                if (this.value < 0) this.value = '00';
+                if (this.value > 59) this.value = '59';
+                if (this.value.length === 1) this.value = '0' + this.value;
+            });
+        }
+        
+        // =============================================
+        // FUNCIONES PARA EL MAPA Y UBICACIÓN
+        // =============================================
+        function initMap() {
+            // Coordenadas de Tulancingo Centro como ubicación por defecto
+            const tulancingoCenter = [20.0775, -98.3683];
+            
+            // Crear el mapa
+            map = L.map('locationMap').setView(tulancingoCenter, 14);
+            
+            // Añadir capa de OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Añadir marcador inicial
+            marker = L.marker(tulancingoCenter, {
+                draggable: true
+            }).addTo(map);
+            
+            // Actualizar coordenadas cuando se mueve el marcador
+            marker.on('dragend', function(e) {
+                updateLocationFromMarker();
+            });
+            
+            // Actualizar marcador cuando se hace clic en el mapa
+            map.on('click', function(e) {
+                marker.setLatLng(e.latlng);
+                updateLocationFromMarker();
+            });
+            
+            // Inicializar el buscador de lugares
+            placesSearch = new GeoSearch.GeoSearchControl({
+                provider: new GeoSearch.OpenStreetMapProvider(),
+                style: 'bar',
+                showMarker: false,
+                autoClose: true
+            });
+            
+            map.addControl(placesSearch);
+            
+            // Manejar resultados de búsqueda
+            map.on('geosearch/showlocation', function(result) {
+                document.getElementById('selectedLocationText').textContent = result.location.label;
+                document.getElementById('selectedAddress').value = result.location.label;
+            });
+        }
+        
+        function initAutocomplete() {
+            // Inicializar autocompletado para búsqueda de lugares
+            const placesSearchInput = document.getElementById('placesSearch');
+            if (placesSearchInput) {
+                addressAutocomplete = new google.maps.places.Autocomplete(placesSearchInput, {
+                    types: ['establishment'],
+                    componentRestrictions: { country: 'mx' }
+                });
+                
+                addressAutocomplete.addListener('place_changed', function() {
+                    const place = addressAutocomplete.getPlace();
+                    if (!place.geometry) {
+                        console.log("No se encontraron detalles para el lugar seleccionado");
+                        return;
+                    }
+                    
+                    // Centrar el mapa en el lugar seleccionado
+                    map.setView([place.geometry.location.lat(), place.geometry.location.lng()], 16);
+                    marker.setLatLng([place.geometry.location.lat(), place.geometry.location.lng()]);
+                    
+                    // Actualizar información de ubicación
+                    document.getElementById('selectedLat').value = place.geometry.location.lat();
+                    document.getElementById('selectedLng').value = place.geometry.location.lng();
+                    document.getElementById('selectedAddress').value = place.formatted_address;
+                    document.getElementById('selectedLocationText').textContent = place.name + " - " + place.formatted_address;
+                });
+            }
+        }
+        
+        function updateLocationFromMarker() {
+            const latLng = marker.getLatLng();
+            document.getElementById('selectedLat').value = latLng.lat;
+            document.getElementById('selectedLng').value = latLng.lng;
+            
+            // Usar Nominatim para geocodificación inversa y obtener la dirección
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat}&lon=${latLng.lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.display_name || 'Ubicación seleccionada';
+                    document.getElementById('selectedAddress').value = address;
+                    document.getElementById('selectedLocationText').textContent = address;
+                })
+                .catch(error => {
+                    console.error("Error al obtener dirección:", error);
+                    document.getElementById('selectedAddress').value = 'Ubicación seleccionada';
+                    document.getElementById('selectedLocationText').textContent = 'Ubicación seleccionada';
+                });
+        }
+        
+        function useCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const userLocation = [position.coords.latitude, position.coords.longitude];
+                        map.setView(userLocation, 16);
+                        marker.setLatLng(userLocation);
+                        updateLocationFromMarker();
+                    },
+                    error => {
+                        alert("No se pudo obtener tu ubicación. Por favor selecciona manualmente en el mapa.");
+                        console.error("Error de geolocalización:", error);
+                    }
+                );
+            } else {
+                alert("Tu navegador no soporta geolocalización. Por favor selecciona manualmente en el mapa.");
+            }
+        }
+        
+        function searchAddress() {
+            const modal = new bootstrap.Modal(document.getElementById('addressSearchModal'));
+            modal.show();
+        }
+        
+        function confirmAddressSelection() {
+            const input = document.getElementById('addressSearchInput').value.trim();
+            if (!input) {
+                alert("Por favor ingresa una dirección para buscar");
+                return;
+            }
+            
+            // Usar Nominatim para buscar la dirección
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(input)}&limit=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const result = data[0];
+                        const location = [parseFloat(result.lat), parseFloat(result.lon)];
+                        
+                        // Centrar el mapa en la ubicación encontrada
+                        map.setView(location, 16);
+                        marker.setLatLng(location);
+                        
+                        // Actualizar información de ubicación
+                        document.getElementById('selectedLat').value = location[0];
+                        document.getElementById('selectedLng').value = location[1];
+                        document.getElementById('selectedAddress').value = result.display_name;
+                        document.getElementById('selectedLocationText').textContent = result.display_name;
+                        
+                        // Cerrar el modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('addressSearchModal'));
+                        modal.hide();
+                    } else {
+                        alert("No se encontró la dirección. Por favor intenta con una referencia más específica.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al buscar dirección:", error);
+                    alert("Ocurrió un error al buscar la dirección. Por favor intenta nuevamente.");
+                });
+        }
+        
+        // =============================================
+        // MANEJO DE OPCIONES DE UBICACIÓN
+        // =============================================
+        function selectLocationOption(type, element) {
+            // Marcar el radio button correspondiente
+            document.querySelector(`input[value="${type}"]`).checked = true;
+            
+            // Remover clase 'selected' de todas las opciones
+            document.querySelectorAll('.location-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Añadir clase 'selected' a la opción clickeada
+            element.classList.add('selected');
+            
+            // Mostrar los controles apropiados según la selección
+            const mapContainer = document.getElementById('mapContainer');
+            const manualLocationContainer = document.getElementById('manualLocationContainer');
+            
+            // Ocultar todos los contenedores primero
+            mapContainer.style.display = 'none';
+            manualLocationContainer.style.display = 'none';
+            
+            // Mostrar el contenedor apropiado según la selección
+            if (type === 'manual') {
+                manualLocationContainer.style.display = 'block';
+            } else if (type === 'select') {
+                mapContainer.style.display = 'block';
+                // Ajustar el mapa al tamaño del contenedor
+                setTimeout(() => map.invalidateSize(), 100);
+            }
+            
+            selectedLocationType = type;
+        }
+        
+        // =============================================
+        // FUNCIÓN PARA ENVIAR MENSAJE POR WHATSAPP
+        // =============================================
+        function sendWhatsAppMessage(event) {
+            event.preventDefault();
+            
+            // Validar campos obligatorios
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const date = document.getElementById('selectedDate').value;
+            const hour = document.getElementById('hourInput').value.padStart(2, '0');
+            const minute = document.getElementById('minuteInput').value.padStart(2, '0');
+            const time = `${hour}:${minute}`;
+            const sessionType = document.getElementById('sessionType').value;
+            
+            if (!name || !phone || !date || !hour || !minute || !sessionType) {
+                alert('Por favor completa todos los campos obligatorios antes de enviar por WhatsApp');
+                return;
+            }
+            
+            // Obtener los valores del formulario
+            const sessionTypeText = document.getElementById('sessionType').options[document.getElementById('sessionType').selectedIndex].text;
+            const locationType = document.querySelector('input[name="location"]:checked')?.value;
+            const notes = document.getElementById('notes').value.trim();
+            
+            // Construir el mensaje para WhatsApp
+            let message = `¡Hola! Soy *${name}* y quiero solicitar una sesión fotográfica.\n\n`;
+            message += `*Tipo de sesión:* ${sessionTypeText}\n`;
+            message += `*Fecha:* ${date}\n`;
+            message += `*Hora:* ${time}\n`;
+            message += `*Teléfono:* ${phone}\n`;
+            
+            // Agregar información de ubicación según la selección
+            if (locationType === 'manual') {
+                const address = [
+                    document.getElementById('addressInput').value,
+                    document.getElementById('coloniaInput').value,
+                    document.getElementById('ciudadInput').value,
+                    document.getElementById('estadoInput').value,
+                    document.getElementById('cpInput').value
+                ].filter(Boolean).join(', ');
+                
+                const notes = document.getElementById('manualLocationNotes').value.trim();
+                
+                message += `*Dirección:* ${address}\n`;
+                if (notes) {
+                    message += `*Referencias:* ${notes}\n`;
+                }
+            } else if (locationType === 'select') {
+                const address = document.getElementById('selectedAddress').value || 'Ubicación seleccionada';
+                message += `*Ubicación:* ${address}\n`;
+            }
+            
+            if (notes) {
+                message += `*Notas adicionales:* ${notes}\n`;
+            }
+            
+            message += `\nPor favor confírmame si esta fecha y hora están disponibles. ¡Gracias!`;
+            
+            // Codificar el mensaje para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Crear el enlace de WhatsApp
+            const whatsappUrl = `https://wa.me/52${PHOTOGRAPHER_WHATSAPP}?text=${encodedMessage}`;
+            
+            // Abrir en una nueva pestaña
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // =============================================
+        // MOSTRAR MODAL DE CONFIRMACIÓN
+        // =============================================
+        function showConfirmation(bookingData) {
+            document.getElementById('modalName').textContent = bookingData.nombre;
+            document.getElementById('modalDate').textContent = formatDate(new Date(bookingData.fecha));
+            document.getElementById('modalTime').textContent = bookingData.hora;
+            document.getElementById('modalSessionType').textContent =
+                document.getElementById('sessionType').options[document.getElementById('sessionType').selectedIndex].text;
+            
+            // Mostrar ubicación según el tipo
+            let locationText = '';
+            if (bookingData.tipoUbicacion === 'manual') {
+                locationText = bookingData.ubicacionDireccion;
+                if (bookingData.ubicacionNotas) {
+                    locationText += ` (${bookingData.ubicacionNotas})`;
+                }
+            } else if (bookingData.tipoUbicacion === 'select') {
+                locationText = bookingData.ubicacionDireccion || 'Ubicación seleccionada';
+            }
+            
+            document.getElementById('modalLocation').textContent = locationText;
+
+            const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            modal.show();
+        }
+    </script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
