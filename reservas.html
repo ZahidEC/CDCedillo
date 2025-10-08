@@ -22,11 +22,6 @@
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Leaflet CSS (para el mapa) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- Leaflet Geosearch -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.8.0/dist/geosearch.css" />
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,6 +30,113 @@
 
     
     <style>
+
+        /* Estilos para los modales */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #06BBCC, #049db8);
+    color: white;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 20px;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+}
+
+.modal-body {
+    padding: 25px;
+    max-height: 60vh;
+    overflow-y: auto;
+    line-height: 1.6;
+}
+
+.modal-body h6 {
+    color: #2d3748;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.modal-body p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 15px 25px;
+}
+
+/* Mejorar la legibilidad de los enlaces en el checkbox */
+.form-check-label a {
+    color: 06BBCC !important;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-check-label a:hover {
+    text-decoration: underline;
+}
+
+        /* Estilos para la selección de ubicación */
+.location-options {
+    margin-top: 10px;
+}
+
+.location-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #f8f9fa;
+}
+
+.location-option:hover, .location-option.selected {
+    background: #e9f5ff;
+    border-color: #0d6efd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.location-option input {
+    margin-right: 12px;
+}
+
+.location-option .location-icon {
+    margin-right: 12px;
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.location-option.selected .location-icon {
+    color: #0d6efd;
+}
+
+.location-option .location-text {
+    flex-grow: 1;
+}
+
+.location-option .location-title {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.location-option .location-subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
         /* ESTILO MODERNO CON DEGRADADOS */
         #calendar-container {
             height: 600px;
@@ -273,37 +375,6 @@
             font-weight: bold;
         }
         
-        /* Estilos para el mapa */
-        #mapContainer {
-            display: none;
-            margin-top: 15px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #dee2e6;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        #locationMap {
-            height: 300px;
-            width: 100%;
-        }
-        
-        .map-controls {
-            background: white;
-            padding: 12px;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        #manualLocationContainer {
-            display: none;
-            margin-top: 15px;
-        }
-        
         /* Estilo para el botón de WhatsApp */
         #whatsappBtn {
             transition: all 0.3s;
@@ -313,66 +384,6 @@
         #whatsappBtn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-        }
-        
-        /* Estilos para la selección de ubicación */
-        .location-options {
-            margin-top: 10px;
-        }
-        
-        .location-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #f8f9fa;
-        }
-        
-        .location-option:hover, .location-option.selected {
-            background: #e9f5ff;
-            border-color: #0d6efd;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .location-option input {
-            margin-right: 12px;
-        }
-        
-        .location-option .location-icon {
-            margin-right: 12px;
-            font-size: 1.2rem;
-            color: #6c757d;
-        }
-        
-        .location-option.selected .location-icon {
-            color: #0d6efd;
-        }
-        
-        .location-option .location-text {
-            flex-grow: 1;
-        }
-        
-        .location-option .location-title {
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        
-        .location-option .location-subtitle {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-        
-        /* Estilos para el autocompletado */
-        .pac-container {
-            z-index: 1051 !important;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border: none;
         }
         
         /* Estilos generales mejorados */
@@ -485,43 +496,46 @@
             background-color: #f57c00;
         }
 
-            /* Forzar icono blanco */
-.navbar-dark .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
-}
+        /* Forzar icono blanco */
+        .navbar-dark .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+        }
 
-/* Solo en pantallas pequeñas: fondo negro semitransparente y links en blanco */
-@media (max-width: 991px) {
-  #navbarCollapse {
-    background-color: rgba(0,0,0,0.8) !important;
-  }
-  #navbarCollapse .nav-link {
-    color: #ffffff !important;
-    transition: color 0.3s ease-in-out;
-  }
-  #navbarCollapse .nav-link:hover,
-  #navbarCollapse .nav-link:focus {
-    color: #DF8932 !important;
-  }
-  /* opcional: quitar borde del toggler */
-  .navbar-toggler {
-    border-color: transparent !important;
-  }
-}
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
-}
-
-@media (max-width: 991px) {
-  .navbar-collapse {
-    position: absolute;
-    top: 100%;   /* justo debajo del navbar */
-    left: 0;
-    width: 100%;
-    background-color: rgba(0,0,0,0.9); /* negro semitransparente */
-    z-index: 999;
-  }
-}
+        /* Solo en pantallas pequeñas: fondo negro semitransparente y links en blanco */
+        @media (max-width: 991px) {
+          #navbarCollapse {
+            background-color: rgba(0,0,0,0.8) !important;
+          }
+          #navbarCollapse .nav-link {
+            color: #ffffff !important;
+            transition: color 0.3s ease-in-out;
+          }
+          #navbarCollapse .nav-link:hover,
+          #navbarCollapse .nav-link:focus {
+            color: #DF8932 !important;
+          }
+          /* opcional: quitar borde del toggler */
+          .navbar-toggler {
+            border-color: transparent !important;
+          }
+        }
+        
+        @media (max-width: 991px) {
+          .navbar-collapse {
+            position: absolute;
+            top: 100%;   /* justo debajo del navbar */
+            left: 0;
+            width: 100%;
+            background-color: rgba(0,0,0,0.9); /* negro semitransparente */
+            z-index: 999;
+          }
+        }
+        
+        /* Estilos para el campo de sesión manual */
+        #manualSessionContainer {
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 
@@ -559,10 +573,8 @@
                 closeNotification();
             }
         });
-        
-        // Opcional: Cerrar después de 10 segundos (10000 milisegundos)
-        // setTimeout(closeNotification, 10000);
     </script>
+   
    <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
@@ -577,7 +589,7 @@
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="index.html" class="nav-item nav-link">Inicio</a>
             <a href="about.html" class="nav-item nav-link">Sobre Mí</a>
-            <a href="portafolio_1.html" class="nav-item nav-link active">Portafolio</a>
+            <a href="portafolio_1.html" class="nav-item nav-link ">Portafolio</a>
             <a href="contact.html" class="nav-item nav-link">Contacto</a>
             <!-- Enlace de Reservas solo para móviles -->
             <a href="reservas.html" class="nav-item nav-link d-lg-none">Reservar Sesión</a>
@@ -592,8 +604,9 @@
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center px-3" style="color: #df8932;">Reservas</h6>
-                <h1 class="mb-4">Agenda Tu Sesión Fotográfica</h1>
-                <p class="lead" style="text-align: justify !important;"><li><strong>Horarios Demostrativos:</strong> Los horarios mostrados son tentativos y están sujetos a disponibilidad.</li>
+                <h1 class="mb-4">AGENDA TU SESIÓN FOTOGRÁFICA</h1>
+                <p class="lead" style="text-align: justify !important;">
+                    <li><strong>Horarios Demostrativos:</strong> Los horarios mostrados son tentativos y están sujetos a disponibilidad.</li>
                     <li><strong>Confirmación Obligatoria:</strong> Es indispensable que esperes la confirmación de tu cita a través de WhatsApp antes de considerarla agendada.</li>
                </p>
             </div>
@@ -627,6 +640,15 @@
                                 <!-- Los días se generarán dinámicamente -->
                             </div>
                         </div>
+                        <div>
+                            <p> <br> Apreciado/a cliente <br>
+                                Agradecemos su interés en nuestros servicios. <br> <br>
+                                Le informamos que, para garantizar una gestión de tiempo óptima y ofrecerle la atención y dedicación que merece, la agenda de reservas se administra de manera externa a cualquier calendario o plataforma pública. <br><br>
+                                Por esta razón, le solicitamos amablemente que, aunque una fecha no aparezca marcada como ocupada en el calendario anterior, siempre consulte y confirme nuestra disponibilidad enviándonos un mensaje con las fechas y horarios específicos que requiere o llenando el sig formulario de su derecha. <br><br>
+                                De esta forma, podemos validar la capacidad de servicio y asegurar la correcta coordinación para su evento o sesion. <br><br>
+                                Agradecemos de antemano su comprensión y colaboración. <br>
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <!-- Formulario de Reserva -->
@@ -651,96 +673,61 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tipo de sesión*</label>
-                                    <select class="form-select" id="sessionType" required>
-                                        <option value="" disabled selected>Selecciona...</option>
-                                        <option value="retrato">Retratos</option>
-                                        <option value="boda">Boda</option>
-                                        <option value="evento">Evento</option>
-                                        <option value="producto">Fotografía de Producto</option>
-                                        <option value="otro">Otro</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Hora preferida*</label>
-                                    <div class="time-picker">
-                                        <input type="number" class="time-input" id="hourInput" min="9" max="20" placeholder="09" required>
-                                        <span class="time-separator">:</span>
-                                        <input type="number" class="time-input" id="minuteInput" min="0" max="59" placeholder="00" required>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="mb-3">
-                                <label class="form-label">Ubicación de la sesión*</label>
-                                
-                                <!-- Opciones de ubicación simplificadas -->
-                                <div class="location-options">
-                                    <div class="location-option" onclick="selectLocationOption('manual', this)">
-                                        <input type="radio" name="location" id="locationManual" value="manual" required>
-                                        <i class="fas fa-map-marker-alt location-icon"></i>
-                                        <div class="location-text">
-                                            <div class="location-title">Agregar ubicación</div>
-                                            <div class="location-subtitle">Ingresa la dirección manualmente</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="location-option" onclick="selectLocationOption('select', this)">
-                                        <input type="radio" name="location" id="locationSelect" value="select">
-                                        <i class="fas fa-search-location location-icon"></i>
-                                        <div class="location-text">
-                                            <div class="location-title">Seleccionar ubicación</div>
-                                            <div class="location-subtitle">Busca en el mapa o usa tu ubicación</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="location-options">
-                                    <div class="location-option" onclick="selectLocationOption">
-                                        <input type="radio" name="location" id="locationManual" value="manual" required>
-                                        <i class="fas fa-map-marker-alt location-icon"></i>
-                                        <div class="location-text">
-                                            <div class="location-title">Acordar ubicación por WhatsApp</div>
-                                        </div>
-                                    </div>
-                                <!-- Contenedor para dirección manual -->
-                                <div id="manualLocationContainer">
-                                    <label class="form-label mt-2">Dirección completa*</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" id="addressInput" class="form-control" placeholder="Calle y número">
-                                        <input type="text" id="coloniaInput" class="form-control" placeholder="Colonia">
-                                    </div>
-                                    <div class="input-group mb-2">
-                                        <input type="text" id="ciudadInput" class="form-control" placeholder="Ciudad" value="Tulancingo">
-                                        <input type="text" id="estadoInput" class="form-control" placeholder="Estado" value="Hidalgo">
-                                        <input type="text" id="cpInput" class="form-control" placeholder="C.P.">
-                                    </div>
-                                    <textarea class="form-control" id="manualLocationNotes" rows="2" placeholder="Referencias adicionales (color de casa, puntos de referencia, etc.)"></textarea>
-                                </div>
-                                
-                                <!-- Contenedor para el mapa -->
-                                <div id="mapContainer">
-                                    <div class="map-controls">
-                                        <div>
-                                            <small class="text-muted">Ubicación seleccionada:</small>
-                                            <div id="selectedLocationText" class="fw-bold">Selecciona en el mapa</div>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="useCurrentLocation()">
-                                                <i class="fas fa-location-arrow me-1"></i> Mi ubicación
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="searchAddress()">
-                                                <i class="fas fa-search me-1"></i> Buscar dirección
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="locationMap"></div>
-                                    <input type="hidden" id="selectedLat">
-                                    <input type="hidden" id="selectedLng">
-                                    <input type="hidden" id="selectedAddress">
+                                <label class="form-label">Tipo de sesión*</label>
+                                <select class="form-select" id="sessionType" required onchange="handleSessionTypeChange()">
+                                    <option value="" disabled selected>Selecciona...</option>
+                                    <option value="retrato">Retratos</option>
+                                    <option value="boda">Boda</option>
+                                    <option value="evento">Evento</option>
+                                    <option value="producto">Fotografía de Producto</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                                <!-- Manual input for "Otro" option -->
+                                <div id="manualSessionContainer" style="display: none;">
+                                    <label class="form-label mt-2">Especificar tipo de sesión*</label>
+                                    <input type="text" class="form-control" id="manualSessionType" placeholder="Describe el tipo de sesión">
                                 </div>
                             </div>
+                            <div class="mb-3">
+    <label class="form-label">Ubicación de la sesión*</label>
+    
+    <!-- Opciones de ubicación simplificadas -->
+    <div class="location-options">
+        <div class="location-option" onclick="selectLocationOption('whatsapp', this)">
+            <input type="radio" name="location" id="locationWhatsapp" value="whatsapp" required>
+            <i class="fab fa-whatsapp location-icon"></i>
+            <div class="location-text">
+                <div class="location-title">Acordar ubicación por WhatsApp</div>
+                <div class="location-subtitle">Coordinaremos el lugar por mensaje</div>
+            </div>
+        </div>
+        
+        <div class="location-option" onclick="selectLocationOption('manual', this)">
+            <input type="radio" name="location" id="locationManual" value="manual">
+            <i class="fas fa-map-marker-alt location-icon"></i>
+            <div class="location-text">
+                <div class="location-title">Especificar ubicación ahora</div>
+                <div class="location-subtitle">Ingresa la dirección manualmente</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor para dirección manual -->
+    <div id="manualLocationContainer" style="display: none;">
+        <label class="form-label mt-3">Dirección completa*</label>
+        <div class="input-group mb-2">
+            <input type="text" id="addressInput" class="form-control" placeholder="Calle y número">
+            <input type="text" id="coloniaInput" class="form-control" placeholder="Colonia">
+        </div>
+        <div class="input-group mb-2">
+            <input type="text" id="ciudadInput" class="form-control" placeholder="Ciudad" value="Tulancingo">
+            <input type="text" id="estadoInput" class="form-control" placeholder="Estado" value="Hidalgo">
+            <input type="text" id="cpInput" class="form-control" placeholder="C.P.">
+        </div>
+        <textarea class="form-control" id="manualLocationNotes" rows="2" placeholder="Referencias adicionales (color de casa, puntos de referencia, etc.)"></textarea>
+    </div>
+</div>
 
                             <div class="mb-3">
                                 <label class="form-label">Notas adicionales</label>
@@ -750,8 +737,11 @@
                             <div class="form-check mb-4">
                                 <input class="form-check-input" type="checkbox" id="termsCheck" required>
                                 <label class="form-check-label" for="termsCheck">
-                                    Acepto los <a href="terms.html" target="_blank">términos y condiciones</a> y <a href="privacy.html" target="_blank">política de privacidad</a>
-                                </label>
+    Acepto los 
+    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal" style="color: #06BBCC; text-decoration: none;">términos y condiciones</a> 
+    y 
+    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#privacyModal" style="color: #06BBCC; text-decoration: none;">política de privacidad</a>
+</label>
                             </div>
                             <div class="text-center mt-3">
                                 <p class="mb-2">Agendar por WhatsApp</p>
@@ -766,77 +756,6 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">¡Reserva Confirmada!</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center mb-4">
-                        <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
-                        <h4>Gracias <span id="modalName"></span>!</h4>
-                        <p>Tu reserva ha sido confirmada con éxito.</p>
-                    </div>
-                    <div class="reservation-details">
-                        <h5 class="mb-3">Detalles de tu reserva:</h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-calendar-day me-2"></i>Fecha:</span>
-                                <span class="fw-bold" id="modalDate"></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-clock me-2"></i>Hora:</span>
-                                <span class="fw-bold" id="modalTime"></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-camera me-2"></i>Tipo de sesión:</span>
-                                <span class="fw-bold" id="modalSessionType"></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-map-marker-alt me-2"></i>Ubicación:</span>
-                                <span class="fw-bold text-end" id="modalLocation"></span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mt-4">
-                        <p>Te hemos enviado un correo electrónico con los detalles de tu reserva. Si no lo recibes en los próximos minutos, por favor revisa tu carpeta de spam.</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Address Search Modal -->
-    <div class="modal fade" id="addressSearchModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Buscar dirección</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Ingresa una dirección</label>
-                        <input type="text" id="addressSearchInput" class="form-control" placeholder="Ej: Av. Juárez #45, Tulancingo Centro">
-                    </div>
-                    <div id="addressSearchResults" class="mt-3">
-                        <!-- Resultados de búsqueda aparecerán aquí -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="confirmAddressSelection()">Seleccionar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -845,8 +764,8 @@
                     <h4 class="text-white mb-3">Enlaces</h4>
                     <a class="btn btn-link" href="about.html">Sobre Mí</a>
                     <a class="btn btn-link" href="contact.html">Contacto</a>
-                    <a class="btn btn-link" href="privacy.html">Privacidad</a>
-                    <a class="btn btn-link" href="terms.html">Términos</a>
+                    <a class="btn btn-link" href="privacidad.html">Privacidad</a>
+                    <a class="btn btn-link" href="terminos.html">Términos</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Contacto</h4>
@@ -854,9 +773,9 @@
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>775 182 0299</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>cedillo1618@outlook.es</p>
                     <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Fcd_cedilloax%3Futm_source%3Dig_web_button_share_sheet%26igsh%3DZDNlZDc0MzIxNw%253D%253D%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJipZBExa2plZTJUdWs1SVRkN2NGaQEe5PgXlS7tYufiUqmlk0CHiMhHrEp0ZrYz8p-YBF8OC0-b9e290sHvXXVqErs_aem_j9SRToX_PdLiWjR2qQ7KIg&h=AT3ToJex8Xn5hNKBd8u-I75CJvA6ucJlMVEhuuNi5Jy9gKgQcGegekQOGA444_mSabQSYeFhZps4mGXhp35Teqg0fHCJbbBp6nRiPyz_ytvf29TUIfjfrNv9tzzDmpsN0bnIJg"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/CLFotoVideo/"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://wa.me/7751820299"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -880,24 +799,123 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
-    
-    <!-- Leaflet JS (para el mapa) -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet Geosearch -->
-    <script src="https://unpkg.com/leaflet-geosearch@3.8.0/dist/geosearch.umd.js"></script>
-    <!-- Google Places Autocomplete -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIwFewoQ0TL0jooQFnRBQgUARLvFyE34Y&libraries=places&callback=initAutocomplete" async defer></script>
 
     <!-- Script principal -->
     <script>
+        // =============================================
+// MANEJO DE OPCIONES DE UBICACIÓN
+// =============================================
+function selectLocationOption(type, element) {
+    // Marcar el radio button correspondiente
+    document.querySelector(`input[value="${type}"]`).checked = true;
+    
+    // Remover clase 'selected' de todas las opciones
+    document.querySelectorAll('.location-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+    
+    // Añadir clase 'selected' a la opción clickeada
+    element.classList.add('selected');
+    
+    // Mostrar/ocultar contenedor de dirección manual
+    const manualLocationContainer = document.getElementById('manualLocationContainer');
+    
+    if (type === 'manual') {
+        manualLocationContainer.style.display = 'block';
+    } else {
+        manualLocationContainer.style.display = 'none';
+    }
+    
+    selectedLocationType = type;
+}
+
+// =============================================
+// ACTUALIZAR FUNCIÓN DE WHATSAPP PARA INCLUIR UBICACIÓN
+// =============================================
+function sendWhatsAppMessage(event) {
+    event.preventDefault();
+    
+    // Validar campos obligatorios
+    const name = document.getElementById('clientName').value.trim();
+    const phone = document.getElementById('clientPhone').value.trim();
+    const date = document.getElementById('selectedDate').value;
+    const sessionType = document.getElementById('sessionType').value;
+    const locationType = document.querySelector('input[name="location"]:checked')?.value;
+    
+    if (!name || !phone || !date || !sessionType || !locationType) {
+        alert('Por favor completa todos los campos obligatorios antes de enviar por WhatsApp');
+        return;
+    }
+    
+    // Validar términos y condiciones
+    if (!document.getElementById('termsCheck').checked) {
+        alert('Debes aceptar los términos y condiciones para continuar');
+        return;
+    }
+    
+    // Get session type text
+    let sessionTypeText = document.getElementById('sessionType').options[document.getElementById('sessionType').selectedIndex].text;
+    
+    // If "Otro" is selected, use manual input
+    if (sessionType === 'otro') {
+        const manualType = document.getElementById('manualSessionType').value.trim();
+        if (!manualType) {
+            alert('Por favor especifica el tipo de sesión');
+            return;
+        }
+        sessionTypeText = manualType;
+    }
+    
+    const notes = document.getElementById('notes').value.trim();
+    
+    // Construir el mensaje para WhatsApp
+    let message = `¡Hola! Soy *${name}* y quiero solicitar una sesión fotográfica.\n\n`;
+    message += `*Tipo de sesión:* ${sessionTypeText}\n`;
+    message += `*Fecha:* ${date}\n`;
+    message += `*Teléfono:* ${phone}\n`;
+    
+    // Agregar información de ubicación según la selección
+    if (locationType === 'manual') {
+        const address = [
+            document.getElementById('addressInput').value,
+            document.getElementById('coloniaInput').value,
+            document.getElementById('ciudadInput').value,
+            document.getElementById('estadoInput').value,
+            document.getElementById('cpInput').value
+        ].filter(Boolean).join(', ');
+        
+        const locationNotes = document.getElementById('manualLocationNotes').value.trim();
+        
+        if (!address) {
+            alert('Por favor ingresa la dirección completa');
+            return;
+        }
+        
+        message += `*Ubicación:* ${address}\n`;
+        if (locationNotes) {
+            message += `*Referencias:* ${locationNotes}\n`;
+        }
+    } else if (locationType === 'whatsapp') {
+        message += `*Ubicación:* Por acordar por WhatsApp\n`;
+    }
+    
+    if (notes) {
+        message += `*Notas adicionales:* ${notes}\n`;
+    }
+    
+    message += `\nPor favor confírmame si esta fecha está disponible y acordemos los detalles. ¡Gracias!`;
+    
+    // Codificar el mensaje para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Crear el enlace de WhatsApp
+    const whatsappUrl = `https://wa.me/52${PHOTOGRAPHER_WHATSAPP}?text=${encodedMessage}`;
+    
+    // Abrir en una nueva pestaña
+    window.open(whatsappUrl, '_blank');
+}
         // Variables globales
-        let map;
-        let marker;
-        let selectedLocation = null;
         let selectedDate = null;
-        let selectedLocationType = null;
-        let placesSearch;
-        let addressAutocomplete;
         
         // WhatsApp del fotógrafo (cambiar por el número real)
         const PHOTOGRAPHER_WHATSAPP = '7751820299';
@@ -920,12 +938,6 @@
 
             // Inicializar animaciones
             new WOW().init();
-            
-            // Inicializar mapa (pero no mostrarlo hasta que se necesite)
-            initMap();
-            
-            // Configurar inputs de hora
-            setupTimeInputs();
         });
         
         // =============================================
@@ -1057,222 +1069,26 @@
             });
         }
         
-        // Configurar inputs de hora digital
-        function setupTimeInputs() {
-            const hourInput = document.getElementById('hourInput');
-            const minuteInput = document.getElementById('minuteInput');
-            
-            // Establecer valores por defecto
-            hourInput.value = '09';
-            minuteInput.value = '00';
-            
-            // Validar entrada de hora
-            hourInput.addEventListener('change', function() {
-                if (this.value < 9) this.value = '09';
-                if (this.value > 20) this.value = '20';
-                if (this.value.length === 1) this.value = '0' + this.value;
-            });
-            
-            // Validar entrada de minutos
-            minuteInput.addEventListener('change', function() {
-                if (this.value < 0) this.value = '00';
-                if (this.value > 59) this.value = '59';
-                if (this.value.length === 1) this.value = '0' + this.value;
-            });
-        }
-        
         // =============================================
-        // FUNCIONES PARA EL MAPA Y UBICACIÓN
+        // FUNCIONES PARA EL TIPO DE SESIÓN
         // =============================================
-        function initMap() {
-            // Coordenadas de Tulancingo Centro como ubicación por defecto
-            const tulancingoCenter = [20.0775, -98.3683];
-            
-            // Crear el mapa
-            map = L.map('locationMap').setView(tulancingoCenter, 14);
-            
-            // Añadir capa de OpenStreetMap
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            
-            // Añadir marcador inicial
-            marker = L.marker(tulancingoCenter, {
-                draggable: true
-            }).addTo(map);
-            
-            // Actualizar coordenadas cuando se mueve el marcador
-            marker.on('dragend', function(e) {
-                updateLocationFromMarker();
-            });
-            
-            // Actualizar marcador cuando se hace clic en el mapa
-            map.on('click', function(e) {
-                marker.setLatLng(e.latlng);
-                updateLocationFromMarker();
-            });
-            
-            // Inicializar el buscador de lugares
-            placesSearch = new GeoSearch.GeoSearchControl({
-                provider: new GeoSearch.OpenStreetMapProvider(),
-                style: 'bar',
-                showMarker: false,
-                autoClose: true
-            });
-            
-            map.addControl(placesSearch);
-            
-            // Manejar resultados de búsqueda
-            map.on('geosearch/showlocation', function(result) {
-                document.getElementById('selectedLocationText').textContent = result.location.label;
-                document.getElementById('selectedAddress').value = result.location.label;
-            });
-        }
         
-        function initAutocomplete() {
-            // Inicializar autocompletado para búsqueda de lugares
-            const placesSearchInput = document.getElementById('placesSearch');
-            if (placesSearchInput) {
-                addressAutocomplete = new google.maps.places.Autocomplete(placesSearchInput, {
-                    types: ['establishment'],
-                    componentRestrictions: { country: 'mx' }
-                });
-                
-                addressAutocomplete.addListener('place_changed', function() {
-                    const place = addressAutocomplete.getPlace();
-                    if (!place.geometry) {
-                        console.log("No se encontraron detalles para el lugar seleccionado");
-                        return;
-                    }
-                    
-                    // Centrar el mapa en el lugar seleccionado
-                    map.setView([place.geometry.location.lat(), place.geometry.location.lng()], 16);
-                    marker.setLatLng([place.geometry.location.lat(), place.geometry.location.lng()]);
-                    
-                    // Actualizar información de ubicación
-                    document.getElementById('selectedLat').value = place.geometry.location.lat();
-                    document.getElementById('selectedLng').value = place.geometry.location.lng();
-                    document.getElementById('selectedAddress').value = place.formatted_address;
-                    document.getElementById('selectedLocationText').textContent = place.name + " - " + place.formatted_address;
-                });
-            }
-        }
-        
-        function updateLocationFromMarker() {
-            const latLng = marker.getLatLng();
-            document.getElementById('selectedLat').value = latLng.lat;
-            document.getElementById('selectedLng').value = latLng.lng;
+        // Handle session type changes
+        function handleSessionTypeChange() {
+            const sessionType = document.getElementById('sessionType').value;
+            const manualContainer = document.getElementById('manualSessionContainer');
             
-            // Usar Nominatim para geocodificación inversa y obtener la dirección
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat}&lon=${latLng.lng}`)
-                .then(response => response.json())
-                .then(data => {
-                    const address = data.display_name || 'Ubicación seleccionada';
-                    document.getElementById('selectedAddress').value = address;
-                    document.getElementById('selectedLocationText').textContent = address;
-                })
-                .catch(error => {
-                    console.error("Error al obtener dirección:", error);
-                    document.getElementById('selectedAddress').value = 'Ubicación seleccionada';
-                    document.getElementById('selectedLocationText').textContent = 'Ubicación seleccionada';
-                });
-        }
-        
-        function useCurrentLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        const userLocation = [position.coords.latitude, position.coords.longitude];
-                        map.setView(userLocation, 16);
-                        marker.setLatLng(userLocation);
-                        updateLocationFromMarker();
-                    },
-                    error => {
-                        alert("No se pudo obtener tu ubicación. Por favor selecciona manualmente en el mapa.");
-                        console.error("Error de geolocalización:", error);
-                    }
-                );
+            if (sessionType === 'otro') {
+                manualContainer.style.display = 'block';
             } else {
-                alert("Tu navegador no soporta geolocalización. Por favor selecciona manualmente en el mapa.");
-            }
-        }
-        
-        function searchAddress() {
-            const modal = new bootstrap.Modal(document.getElementById('addressSearchModal'));
-            modal.show();
-        }
-        
-        function confirmAddressSelection() {
-            const input = document.getElementById('addressSearchInput').value.trim();
-            if (!input) {
-                alert("Por favor ingresa una dirección para buscar");
-                return;
+                manualContainer.style.display = 'none';
             }
             
-            // Usar Nominatim para buscar la dirección
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(input)}&limit=1`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.length > 0) {
-                        const result = data[0];
-                        const location = [parseFloat(result.lat), parseFloat(result.lon)];
-                        
-                        // Centrar el mapa en la ubicación encontrada
-                        map.setView(location, 16);
-                        marker.setLatLng(location);
-                        
-                        // Actualizar información de ubicación
-                        document.getElementById('selectedLat').value = location[0];
-                        document.getElementById('selectedLng').value = location[1];
-                        document.getElementById('selectedAddress').value = result.display_name;
-                        document.getElementById('selectedLocationText').textContent = result.display_name;
-                        
-                        // Cerrar el modal
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('addressSearchModal'));
-                        modal.hide();
-                    } else {
-                        alert("No se encontró la dirección. Por favor intenta con una referencia más específica.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error al buscar dirección:", error);
-                    alert("Ocurrió un error al buscar la dirección. Por favor intenta nuevamente.");
-                });
-        }
-        
-        // =============================================
-        // MANEJO DE OPCIONES DE UBICACIÓN
-        // =============================================
-        function selectLocationOption(type, element) {
-            // Marcar el radio button correspondiente
-            document.querySelector(`input[value="${type}"]`).checked = true;
-            
-            // Remover clase 'selected' de todas las opciones
-            document.querySelectorAll('.location-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Añadir clase 'selected' a la opción clickeada
-            element.classList.add('selected');
-            
-            // Mostrar los controles apropiados según la selección
-            const mapContainer = document.getElementById('mapContainer');
-            const manualLocationContainer = document.getElementById('manualLocationContainer');
-            
-            // Ocultar todos los contenedores primero
-            mapContainer.style.display = 'none';
-            manualLocationContainer.style.display = 'none';
-            
-            // Mostrar el contenedor apropiado según la selección
-            if (type === 'manual') {
-                manualLocationContainer.style.display = 'block';
-            } else if (type === 'select') {
-                mapContainer.style.display = 'block';
-                // Ajustar el mapa al tamaño del contenedor
-                setTimeout(() => map.invalidateSize(), 100);
+            // Hide other options when "Acordar por WhatsApp" is selected
+            if (sessionType === 'whatsapp') {
+                // You can add logic here to hide other fields if needed
+                console.log('WhatsApp option selected - hide other fields if necessary');
             }
-            
-            selectedLocationType = type;
         }
         
         // =============================================
@@ -1285,54 +1101,45 @@
             const name = document.getElementById('clientName').value.trim();
             const phone = document.getElementById('clientPhone').value.trim();
             const date = document.getElementById('selectedDate').value;
-            const hour = document.getElementById('hourInput').value.padStart(2, '0');
-            const minute = document.getElementById('minuteInput').value.padStart(2, '0');
-            const time = `${hour}:${minute}`;
             const sessionType = document.getElementById('sessionType').value;
             
-            if (!name || !phone || !date || !hour || !minute || !sessionType) {
+            if (!name || !phone || !date || !sessionType) {
                 alert('Por favor completa todos los campos obligatorios antes de enviar por WhatsApp');
                 return;
             }
             
-            // Obtener los valores del formulario
-            const sessionTypeText = document.getElementById('sessionType').options[document.getElementById('sessionType').selectedIndex].text;
-            const locationType = document.querySelector('input[name="location"]:checked')?.value;
+            // Validar términos y condiciones
+            if (!document.getElementById('termsCheck').checked) {
+                alert('Debes aceptar los términos y condiciones para continuar');
+                return;
+            }
+            
+            // Get session type text
+            let sessionTypeText = document.getElementById('sessionType').options[document.getElementById('sessionType').selectedIndex].text;
+            
+            // If "Otro" is selected, use manual input
+            if (sessionType === 'otro') {
+                const manualType = document.getElementById('manualSessionType').value.trim();
+                if (!manualType) {
+                    alert('Por favor especifica el tipo de sesión');
+                    return;
+                }
+                sessionTypeText = manualType;
+            }
+            
             const notes = document.getElementById('notes').value.trim();
             
-            // Construir el mensaje para WhatsApp
+            // Construir el mensaje para WhatsApp (simplificado sin hora y ubicación)
             let message = `¡Hola! Soy *${name}* y quiero solicitar una sesión fotográfica.\n\n`;
             message += `*Tipo de sesión:* ${sessionTypeText}\n`;
             message += `*Fecha:* ${date}\n`;
-            message += `*Hora:* ${time}\n`;
             message += `*Teléfono:* ${phone}\n`;
-            
-            // Agregar información de ubicación según la selección
-            if (locationType === 'manual') {
-                const address = [
-                    document.getElementById('addressInput').value,
-                    document.getElementById('coloniaInput').value,
-                    document.getElementById('ciudadInput').value,
-                    document.getElementById('estadoInput').value,
-                    document.getElementById('cpInput').value
-                ].filter(Boolean).join(', ');
-                
-                const notes = document.getElementById('manualLocationNotes').value.trim();
-                
-                message += `*Dirección:* ${address}\n`;
-                if (notes) {
-                    message += `*Referencias:* ${notes}\n`;
-                }
-            } else if (locationType === 'select') {
-                const address = document.getElementById('selectedAddress').value || 'Ubicación seleccionada';
-                message += `*Ubicación:* ${address}\n`;
-            }
             
             if (notes) {
                 message += `*Notas adicionales:* ${notes}\n`;
             }
             
-            message += `\nPor favor confírmame si esta fecha y hora están disponibles. ¡Gracias!`;
+            message += `\nPor favor confírmame si esta fecha está disponible y acordemos los detalles. ¡Gracias!`;
             
             // Codificar el mensaje para URL
             const encodedMessage = encodeURIComponent(message);
@@ -1343,37 +1150,152 @@
             // Abrir en una nueva pestaña
             window.open(whatsappUrl, '_blank');
         }
-
-        // =============================================
-        // MOSTRAR MODAL DE CONFIRMACIÓN
-        // =============================================
-        function showConfirmation(bookingData) {
-            document.getElementById('modalName').textContent = bookingData.nombre;
-            document.getElementById('modalDate').textContent = formatDate(new Date(bookingData.fecha));
-            document.getElementById('modalTime').textContent = bookingData.hora;
-            document.getElementById('modalSessionType').textContent =
-                document.getElementById('sessionType').options[document.getElementById('sessionType').selectedIndex].text;
-            
-            // Mostrar ubicación según el tipo
-            let locationText = '';
-            if (bookingData.tipoUbicacion === 'manual') {
-                locationText = bookingData.ubicacionDireccion;
-                if (bookingData.ubicacionNotas) {
-                    locationText += ` (${bookingData.ubicacionNotas})`;
-                }
-            } else if (bookingData.tipoUbicacion === 'select') {
-                locationText = bookingData.ubicacionDireccion || 'Ubicación seleccionada';
-            }
-            
-            document.getElementById('modalLocation').textContent = locationText;
-
-            const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-            modal.show();
-        }
     </script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <!-- Modal Términos y Condiciones -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Términos y Condiciones de Servicios Fotográficos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>1. Contratación y Pagos</h6>
+                <p><strong>A. Reserva y Anticipo (Seña)</strong><br>
+                La fecha y el servicio solo se consideran reservados tras el pago de un anticipo no reembolsable (generalmente entre el 30% y el 50% del total). Este pago confirma la aceptación de estos Términos y Condiciones.</p>
+                
+                <p><strong>B. Pago del Saldo</strong><br>
+                El saldo restante debe ser abonado en una fecha preestablecida, que puede ser el día de la sesión/evento, o antes de la entrega final del material.</p>
+                
+                <p><strong>C. Gastos Adicionales</strong><br>
+                El cliente es responsable de cubrir cualquier gasto extra no contemplado en el paquete original (p. ej, costos de entrada a locaciones, permisos, viáticos por desplazamiento fuera de la zona acordada, o tiempo extra no contratado).</p>
+                
+                <p><strong>D. Tarifas Adicionales</strong><br>
+                Se indicará el costo por la solicitud de fotografías o productos adicionales (impresiones, fotolibros, retoques extra) no incluidos en el paquete inicial.</p>
+
+                <h6>2. Cancelaciones y Cambios</h6>
+                <p><strong>A. Cancelación por el Cliente</strong><br>
+                El anticipo o depósito es no reembolsable en caso de cancelación por parte del cliente, dado que asegura la reserva de la fecha y tiempo del fotógrafo.</p>
+                
+                <p><strong>B. Reprogramación (Re-agenda)</strong><br>
+                Se permite la reprogramación sujeta a la disponibilidad de la nueva fecha y si se notifica con una antelación mínima (ej. 7 a 15 días hábiles). En caso de reprogramación de último momento (ej. por enfermedad o mal clima), esta se realizará sin penalización si el fotógrafo lo considera justificado.</p>
+                
+                <p><strong>C. Retraso del Cliente</strong><br>
+                El tiempo de la sesión está limitado. Si el cliente se retrasa, el tiempo se descontará de la duración total de la sesión contratada y no será compensado con tiempo extra.</p>
+                
+                <p><strong>D. Fuerza Mayor (Fotógrafo)</strong><br>
+                En el improbable caso de que el fotógrafo no pueda cumplir con el servicio por enfermedad grave, accidente o causa de fuerza mayor, se compromete a: 1) Intentar encontrar un fotógrafo sustituto de calidad similar o; 2) Reembolsar el 100% de todos los pagos recibidos, limitando su responsabilidad a dicha devolución.</p>
+
+                <h6>3. Ejecución del Servicio y Entrega</h6>
+                <p><strong>A. Estilo y Capacidad Artística</strong><br>
+                El cliente contrata al fotógrafo en base a su estilo artístico y técnico conocido (portafolio). El fotógrafo retiene el derecho de utilizar su criterio profesional para la composición, poses, edición, iluminación y selección de imágenes.</p>
+                
+                <p><strong>B. Limitaciones de la Sesión</strong><br>
+                El fotógrafo no se hace responsable por imágenes perdidas o tomas limitadas debido a: Intervención de invitados (cámaras o celulares) interponiéndose. Malas condiciones de iluminación o clima no previstas. Restricciones impuestas por el lugar (iglesia, locación).</p>
+                
+                <p><strong>C. Edición y Post-producción</strong><br>
+                El servicio incluye un retoque estándar (ajuste de color, luz, recorte, imperfecciones menores). Retoques avanzados (fotomontajes, cambios drásticos en la apariencia) serán cotizados como un servicio extra.</p>
+                
+                <p><strong>D. Entrega del Material</strong><br>
+                La entrega del material final (galería, impresiones, etc.) se realizará en los formatos y plazos acordados (p. ej., 15 días hábiles después de la selección de fotos por el cliente). La entrega final se efectúa solo cuando el 100% del pago ha sido cubierto.</p>
+
+                <h6>4. Propiedad Intelectual y Uso</h6>
+                <p><strong>A. Derechos de Autor (Copyright)</strong><br>
+                Los Derechos de Autor de todas las fotografías son y seguirán siendo propiedad exclusiva del Fotógrafo, según lo estipulan las leyes de Propiedad Intelectual.</p>
+                
+                <p><strong>B. Licencia de Uso (Cliente)</strong><br>
+                El cliente recibe una Licencia de Uso Personal para las imágenes entregadas. Esta licencia le permite imprimir, compartir y reproducir las fotos para uso no comercial y familiar (uso privado). El cliente no puede vender las fotos, participar en concursos ni utilizarlas con fines publicitarios sin permiso expreso.</p>
+                
+                <p><strong>C. Uso Promocional (Fotógrafo)</strong><br>
+                El fotógrafo se reserva el derecho de utilizar una selección de las imágenes con fines de promoción, portafolio y publicidad (web, redes sociales, concursos), a menos que el cliente contrate una cláusula de privacidad específica (opción de "no publicación").</p>
+                
+                <p><strong>D. Modificación de Archivos</strong><br>
+                El cliente se compromete a no alterar, editar, aplicar filtros de redes sociales ni modificar de ninguna manera los archivos finales entregados por el fotógrafo.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Política de Privacidad -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="privacyModalLabel">Política de Privacidad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>CD CEDILLO - 2025</strong></p>
+                <p>Esta Política de Privacidad describe cómo CD CEDILLO ("nosotros", "nuestro" o "el Responsable del Tratamiento") recopila, utiliza, divulga y protege los datos personales de sus clientes, visitantes y usuarios del sitio web.</p>
+
+                <h6>1. Responsable del Tratamiento de sus Datos</h6>
+                <p>El responsable del tratamiento de los datos personales recopilados a través de nuestro Sitio y en la prestación de nuestros servicios es:</p>
+                <p>Nombre/Razón Social: CD CEDILLO<br>
+                Domicilio: Tulancingo Hidalgo centro, Tulancingo, Mexico<br>
+                Correo electrónico de contacto para privacidad: cedillo1618@outlook.es</p>
+
+                <h6>2. Información que Recopilamos</h6>
+                <p><strong>A. Datos Proporcionados Directamente por el Usuario</strong><br>
+                Datos de Identificación y Contacto: Nombre completo, dirección de correo electrónico, número de teléfono, dirección postal.<br>
+                Datos de Transacción y Facturación: Información necesaria para procesar pagos y emitir facturas.<br>
+                Detalles del Servicio: Información específica sobre la sesión o evento contratado.</p>
+                
+                <p><strong>B. Datos Considerados Personales por las Leyes (Imágenes)</strong><br>
+                Imágenes, Fotos y Videos: El producto de nuestros servicios, que contienen la imagen identificable de nuestros clientes.</p>
+                
+                <p><strong>C. Datos Recopilados Automáticamente (a través del Sitio Web)</strong><br>
+                Datos de Navegación: Dirección IP, tipo de navegador, sistema operativo, páginas visitadas.<br>
+                Cookies: Pequeños archivos de texto utilizados para mejorar la experiencia del usuario.</p>
+
+                <h6>3. Finalidad y Base Legal del Tratamiento</h6>
+                <p><strong>Prestación y Gestión del Servicio:</strong> Ejecución de un Contrato<br>
+                <strong>Cumplimiento de Obligaciones Legales:</strong> Obligación Legal<br>
+                <strong>Fines de Marketing y Promoción:</strong> Consentimiento del Interesado<br>
+                <strong>Mejora del Sitio Web:</strong> Interés Legítimo</p>
+                
+                <p><em>Nota sobre Imágenes:</em> La publicación de cualquier fotografía que lo identifique en nuestros canales públicos se realizará únicamente si contamos con su consentimiento explícito, informado y verificable.</p>
+
+                <h6>4. Cesión y Destinatarios de los Datos</h6>
+                <p>Sus datos personales no serán vendidos, alquilados ni transferidos a terceros con fines comerciales. Solo podrán ser compartidos con:</p>
+                <p><strong>Proveedores de Servicios:</strong> Terceros que nos ayudan a operar el negocio (hosting de galerías digitales, software de facturación, procesadores de pago).<br>
+                <strong>Cumplimiento Legal:</strong> Cuando sea legalmente requerido por una orden judicial o una obligación regulatoria.</p>
+
+                <h6>5. Conservación de los Datos</h6>
+                <p><strong>Datos de Contacto y Facturación:</strong> Tiempo necesario para cumplir con la finalidad y lo que exija la legislación aplicable.<br>
+                <strong>Archivos Fotográficos (RAW y Editados):</strong> Los archivos finales serán conservados por un período de 1 año a partir de la entrega final.<br>
+                <strong>Datos para Marketing:</strong> Se conservarán hasta que el interesado retire su consentimiento.</p>
+
+                <h6>6. Derechos del Interesado</h6>
+                <p>Usted tiene derecho a ejercer los siguientes derechos sobre sus datos personales:</p>
+                <ul>
+                    <li>Acceso: Solicitar una copia de los datos personales que tenemos sobre usted</li>
+                    <li>Rectificación: Solicitar la corrección de datos inexactos o incompletos</li>
+                    <li>Supresión (Olvido): Solicitar la eliminación de sus datos</li>
+                    <li>Oposición: Oponerse a que sus datos se utilicen para fines de marketing</li>
+                    <li>Portabilidad: Recibir sus datos en un formato estructurado y legible</li>
+                    <li>Revocación de Consentimiento: Retirar el consentimiento otorgado</li>
+                </ul>
+                <p>Para ejercer estos derechos, contacte en: cedillo1618@outlook.es</p>
+
+                <h6>7. Protección de Menores de Edad</h6>
+                <p>Si el servicio implica la fotografía de menores de edad, el tratamiento de sus imágenes solo se llevará a cabo con el consentimiento expreso y por escrito de sus padres o tutores legales.</p>
+
+                <h6>8. Cambios a Esta Política de Privacidad</h6>
+                <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Los cambios significativos serán notificados publicando la política revisada en nuestro Sitio.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
