@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -32,6 +32,27 @@
     
     <!-- Estilos para botones de redes sociales -->
     <style>
+        .tiktok-btn {
+    background: #000000;
+    position: relative;
+    overflow: hidden;
+}
+.tiktok-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #25F4EE, #FE2C55);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.tiktok-btn:hover::before {
+    opacity: 1;
+}
+.tiktok-btn i {
+    position: relative;
+    z-index: 1;
+}
+
         /* ESTILOS PARA EL NAVBAR CON DEGRADADO VERTICAL */
         .navbar {
             background: linear-gradient(to bottom, #131E29 0%, #000000 100%) !important;
@@ -338,14 +359,24 @@
                         
                         <!-- Botones de Redes Sociales (sin WhatsApp) -->
                         <div class="social-buttons">
-                            <h5 class="mb-3">Síguenos en redes</h5>
-                            <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Fcd_cedilloax%3Futm_source%3Dig_web_button_share_sheet%26igsh%3DZDNlZDc0MzIxNw%253D%253D%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExa2plZTJUdWs1SVRkN2NGaQEe5PgXlS7tYufiUqmlk0CHiMhHrEp0ZrYz8p-YBF8OC0-b9e290sHvXXVqErs_aem_j9SRToX_PdLiWjR2qQ7KIg&h=AT3ToJex8Xn5hNKBd8u-I75CJvA6ucJlMVEhuuNi5Jy9gKgQcGegekQOGA444_mSabQSYeFhZps4mGXhp35Teqg0fHCJbbBp6nRiPyz_ytvf29TUIfjfrNv9tzzDmpsN0bnIJg" class="social-btn instagram-btn" target="_blank">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.facebook.com/cedilloax" class="social-btn facebook-btn" target="_blank">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                        </div>
+    <h5 class="mb-3">Síguenos en redes</h5>
+
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@cd_cedilloax" class="social-btn tiktok-btn" target="_blank">
+        <i class="fab fa-tiktok"></i>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/cd_cedilloax" class="social-btn instagram-btn" target="_blank">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/cedilloax" class="social-btn facebook-btn" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+</div>
+
                     </div>
                     
                     <div class="col-lg-6">
@@ -436,6 +467,7 @@
     <script src="js/main.js"></script>
 </body>
 </html>
+
 
 
 
